@@ -6,12 +6,12 @@ created_player_data = {}
 
 
 def test_create_wrong_player(client):
-    resp = client.post("/players/", data=json.dumps(wrong_test_player_data))
+    resp = client.post("/players/", content=json.dumps(wrong_test_player_data))
     assert resp.status_code == 422
 
 
 def test_create_player(client):
-    resp = client.post("/players", data=json.dumps(test_player_data))
+    resp = client.post("/players", content=json.dumps(test_player_data))
     assert resp.status_code == 201
     data_from_response = resp.json()
     assert data_from_response["nickname"] == test_player_data["nickname"]
@@ -32,7 +32,7 @@ def test_get_created_player(client):
 def test_update_created_player(client):
     resp = client.put(
         f'/players/{created_player_data["id"]}',
-        data=json.dumps({**test_player_data, "rating": 123}),
+        content=json.dumps({**test_player_data, "rating": 123}),
     )
     assert resp.status_code == 200
     data_from_response = resp.json()
