@@ -25,4 +25,4 @@ jobs:
       - name: Run tests
         run: poetry run pytest -
         env:
-          DATABASE_URL: secrets.TEST_DATABASE_URL
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
