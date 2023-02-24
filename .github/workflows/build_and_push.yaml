@@ -2,8 +2,8 @@ name: BuildAndPushDockerImage
 
 on:
   push:
-#    tags:
-#    - '*'
+    tags:
+    - '*'
 
 jobs:
   build-and-push:
@@ -15,22 +15,15 @@ jobs:
       - name: Check docker image name and version
         run: echo "$GITHUB_REPOSITORY:$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER"
 
-#      - name: Build the image
-#        run: docker build -t $env:GITHUB_REPOSITORY:$env:GITHUB_REF_NAME-$env:GITHUB_RUN_NUMBER .
-#
-#      - name: Build client image
-#        run: cd client && docker build -t zeph1rrinc/crowdecrypt-front:${{github.event.commits[0].message}}-SNAPSHOT .
-#
-#      - name: Build server image
-#        run: docker build -t zeph1rrinc/crowdecrypt-back:${{github.event.commits[0].message}}-SNAPSHOT .
-#
-#      - name: Check images
-#        run: docker images | grep ${{github.event.commits[0].message}}
-#
-#      - name: Login in docker
-#        run: docker login -u zeph1rrinc -p ${{secrets.DOCKER_HUB_PASS}}
-#
-#      - name: Push into registry
-#        run: |
-#          docker push zeph1rrinc/crowdecrypt-back:${{github.event.commits[0].message}}-SNAPSHOT
-#          docker push zeph1rrinc/crowdecrypt-front:${{github.event.commits[0].message}}-SNAPSHOT
+      - name: Build the image
+        run: docker build -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER .
+
+      - name: Check images
+        run: docker images | grep $GITHUB_REF_NAME-$GITHUB_RUN_NUMBER
+
+      - name: Login in docker
+        run: docker login -u zeph1rrinc -p ${{secrets.DOCKER_HUB_PASS}}
+
+      - name: Push into registry
+        run: |
+          docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER
