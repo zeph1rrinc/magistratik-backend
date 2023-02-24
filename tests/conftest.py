@@ -1,4 +1,3 @@
-import asyncio
 from typing import Any
 from typing import Generator
 
@@ -16,13 +15,6 @@ from backend.database.tables import Base
 from backend.settings import settings
 
 engine = create_engine("psycopg2".join(settings.database_url.split("asyncpg")))
-
-
-@pytest.fixture(scope="session")
-def event_loop():
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
 
 
 @pytest.fixture(scope="session", autouse=True)
